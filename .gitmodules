@@ -12,4 +12,4 @@
 	url = https://github.com/MercuryWorkshop/epoxy-tls
 [submodule "anura-browserjs"]
 	path = external/anura-browserjs
-	url = https://github.com/mercuryworkshop/anura-browserjs
+	url = git@github.com:tails1154/tailsnuraOS-browserjs.git
