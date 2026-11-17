@@ -49,5 +49,6 @@
 
 - Design & Assets
   - UI design inspiration - [Google ChromeOS](https://www.google.com/chromebook/chrome-os/)
+  - Boot splash (`public/assets/images/bootsplash_v2.png`) - built from the anuraOS icon (`public/icon.png`), whose four-colour bar accent is inspired by Google ChromeOS. The previous splash art (`bootsplash.png`, `bootsplash_mw.png`) is kept in the repo.
   - Various icons - [papirus icon theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
   - Various assets - [Google ChromeOS](https://www.google.com/chromebook/chrome-os/)
