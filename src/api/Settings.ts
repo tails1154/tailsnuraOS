@@ -88,6 +88,9 @@ class Settings {
 			this.cache[prop] = val;
 		}
 		this.save();
+		document.dispatchEvent(
+			new CustomEvent("anura-settings-changed", { detail: { prop } }),
+		);
 	}
 	async save() {
 		console.debug("Saving settings to fs", this.cache);

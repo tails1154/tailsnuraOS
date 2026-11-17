@@ -106,8 +106,8 @@ interface NotifParams {
 }
 
 class AnuraNotification implements NotifParams {
-	title = "Anura Notification";
-	description = "Anura Description";
+	title = "Nura Notification";
+	description = "Nura Description";
 	timeout: number | "never" = 2000;
 	closeIndicator = false;
 	callback = (_notif: AnuraNotification) => null;

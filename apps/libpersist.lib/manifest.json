@@ -1,5 +1,5 @@
 {
-	"name": "AnuraOS Persistent Storage",
+	"name": "Nura Persistent Storage",
 	"icon": "icon.svg",
 	"package": "anura.persistence",
 	"versions": {

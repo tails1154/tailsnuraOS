@@ -1,3 +1,7 @@
+const OOBE_SIGNIN_STEP = 1;
+const OOBE_REGISTER_STEP = 2;
+const OOBE_FEATURES_STEP = 3;
+
 class OobeView {
 	state = $state({
 		color: "white",
@@ -7,6 +11,11 @@ class OobeView {
 		v86Enabled: false,
 		localfsdriver: false,
 		dlsize: "0MB",
+		username: "",
+		password: "",
+		signinStatus: "",
+		signinError: "",
+		signingIn: false,
 	});
 
 	constructor() {
@@ -130,6 +139,36 @@ class OobeView {
 			font-size: 1rem;
 		}
 
+		.signin-form {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			max-width: 520px;
+			margin-bottom: 1rem;
+		}
+
+		.signin-form label {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			font-size: 1rem;
+		}
+
+		.signin-form input {
+			background-color: var(--oobe-bg);
+			border-radius: 16px;
+			border: 1px solid gray;
+			color: inherit;
+			height: 2em;
+			padding-left: 1em;
+			padding-right: 1em;
+			font-family: var(--theme-font-sans);
+		}
+
+		.signin-error {
+			color: #d93025;
+		}
+
 		.sub {
 			color: #96969f;
 			font-size: 1.05rem;
@@ -149,7 +188,7 @@ class OobeView {
 		{
 			elm: (
 				<div class="screen" id="welcome">
-					<h1>Welcome to AnuraOS</h1>
+					<h1>Welcome to Nura</h1>
 					<div id="subtitle">Effortless. Modern. Powerful.</div>
 					<div id="gridContent">
 						<img id="animation" src="assets/oobe/welcome.gif" />
@@ -165,9 +204,133 @@ class OobeView {
 		},
 		{
 			elm: (
+				<div class="screen" id="signin">
+					<h1>Sign in</h1>
+					<div id="subtitle">
+						Sign in with your tails1154 account to sync your data.
+					</div>
+					<div class="signin-form">
+						<label>
+							Username
+							<input
+								type="text"
+								autocomplete="username"
+								value={use(this.state.username)}
+								on:input={(e: Event) => {
+									this.state.username = (e.target as HTMLInputElement).value;
+								}}
+							/>
+						</label>
+						<label>
+							Password
+							<input
+								type="password"
+								autocomplete="current-password"
+								value={use(this.state.password)}
+								on:input={(e: Event) => {
+									this.state.password = (e.target as HTMLInputElement).value;
+								}}
+							/>
+						</label>
+					</div>
+					<div class="signin-error sub">{use(this.state.signinError)}</div>
+					<div class="sub">
+						{$if(
+							use(this.state.signingIn),
+							<img
+								src="/assets/oobe/spinner.gif"
+								alt="Signing in"
+								width="32"
+								height="32"
+							/>,
+							<span></span>,
+						)}
+						{use(this.state.signinStatus)}
+					</div>
+					<div id="gridContent">
+						<div id="bottomButtons">
+							<button on:click={() => this.goToStep(OOBE_REGISTER_STEP)}>
+								Create account
+							</button>
+							<button
+								on:click={() => this.signIn()}
+								class="preferredButton"
+								disabled={use(this.state.signingIn)}
+							>
+								Sign in
+							</button>
+						</div>
+					</div>
+				</div>
+			),
+			on: () => {},
+		},
+		{
+			elm: (
+				<div class="screen" id="register">
+					<h1>Create account</h1>
+					<div id="subtitle">Create a tails1154 account to sync your data.</div>
+					<div class="signin-form">
+						<label>
+							Username
+							<input
+								type="text"
+								autocomplete="username"
+								value={use(this.state.username)}
+								on:input={(e: Event) => {
+									this.state.username = (e.target as HTMLInputElement).value;
+								}}
+							/>
+						</label>
+						<label>
+							Password
+							<input
+								type="password"
+								autocomplete="new-password"
+								value={use(this.state.password)}
+								on:input={(e: Event) => {
+									this.state.password = (e.target as HTMLInputElement).value;
+								}}
+							/>
+						</label>
+					</div>
+					<div class="signin-error sub">{use(this.state.signinError)}</div>
+					<div class="sub">
+						{$if(
+							use(this.state.signingIn),
+							<img
+								src="/assets/oobe/spinner.gif"
+								alt="Creating account"
+								width="32"
+								height="32"
+							/>,
+							<span></span>,
+						)}
+						{use(this.state.signinStatus)}
+					</div>
+					<div id="gridContent">
+						<div id="bottomButtons">
+							<button on:click={() => this.goToStep(OOBE_SIGNIN_STEP)}>
+								Back
+							</button>
+							<button
+								on:click={() => this.registerAccount()}
+								class="preferredButton"
+								disabled={use(this.state.signingIn)}
+							>
+								Create account
+							</button>
+						</div>
+					</div>
+				</div>
+			),
+			on: () => {},
+		},
+		{
+			elm: (
 				<div class="screen" id="features">
 					<h1>Choose your experience</h1>
-					<div id="subtitle">What kind of Anura user are you?</div>
+					<div id="subtitle">What kind of Nura user are you?</div>
 					<label class="matter-checkbox">
 						<input
 							type="checkbox"
@@ -177,7 +340,7 @@ class OobeView {
 					</label>
 					<div class="sub">
 						<span class="material-symbols-outlined">info</span>
-						&nbsp;This allows you to use AnuraOS without an internet connection.
+						&nbsp;This allows you to use Nura without an internet connection.
 					</div>
 					<br></br>
 					<label class="matter-checkbox">
@@ -186,7 +349,7 @@ class OobeView {
 					</label>
 					<div class="sub">
 						<span class="material-symbols-outlined">info</span>
-						&nbsp;This allows you to run Linux applications on AnuraOS.
+						&nbsp;This allows you to run Linux applications on Nura.
 					</div>
 					<br></br>
 					<label class="matter-checkbox">
@@ -268,7 +431,7 @@ class OobeView {
 					<div id="assetsDiv" style="display:none;"></div>
 					<h1>Downloading assets</h1>
 					<div id="subtitle" style="color: white;">
-						For the best experience, AnuraOS needs to download required assets.
+						For the best experience, Nura needs to download required assets.
 					</div>
 					<img src="/assets/oobe/spinner.gif" />
 					<br />
@@ -310,6 +473,50 @@ class OobeView {
 		</div>
 	);
 
+	goToStep(index: number) {
+		this.state.step = index;
+		const step = this.steps[index]!;
+		if (step.on) step.on();
+	}
+
+	async registerAccount() {
+		this.state.signinError = "";
+		this.state.signinStatus = "Creating account…";
+		this.state.signingIn = true;
+		try {
+			await (window as any).nuraAccount.register(
+				this.state.username,
+				this.state.password,
+			);
+			this.state.password = "";
+			this.goToStep(OOBE_FEATURES_STEP);
+		} catch (e: any) {
+			this.state.signinError = e?.message || String(e);
+		} finally {
+			this.state.signinStatus = "";
+			this.state.signingIn = false;
+		}
+	}
+
+	async signIn() {
+		this.state.signinError = "";
+		this.state.signinStatus = "Signing in…";
+		this.state.signingIn = true;
+		try {
+			await (window as any).nuraAccount.signIn(
+				this.state.username,
+				this.state.password,
+			);
+			this.state.password = "";
+			this.goToStep(OOBE_FEATURES_STEP);
+		} catch (e: any) {
+			this.state.signinError = e?.message || String(e);
+		} finally {
+			this.state.signinStatus = "";
+			this.state.signingIn = false;
+		}
+	}
+
 	nextStep() {
 		this.state.step++;
 		const step = this.steps[this.state.step]!;
@@ -323,6 +530,14 @@ class OobeView {
 				JSON.stringify(anura.settings.cache),
 			);
 			window.location.reload(); // need to reboot to go through firstboot again if using new opfs driver
+		}
+		const account = (window as any).nuraAccount;
+		if (account && (await account.getSession())) {
+			try {
+				await account.syncNow();
+			} catch (e) {
+				console.warn("OOBE account sync failed", e);
+			}
 		}
 		document.dispatchEvent(new Event("anura-login-completed"));
 		this.element.remove();

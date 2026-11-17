@@ -41,7 +41,7 @@ channel.addEventListener("message", (msg) => {
             </head>
             <body>
             <div id="wrapper">
-            <h1>AnuraOS is already running in another tab</h1>
+            <h1>Nura is already running in another tab</h1>
             <p>Please close the other tab and reload.</p>
             </div>
             </body>
@@ -199,7 +199,7 @@ window.addEventListener("load", async () => {
 					const tracker_br = document.getElementById("systemstatus-br")!;
 					tracker.style.display = "unset";
 					tracker_br.style.display = "unset";
-					tracker.innerText = "Anura is updating your system...";
+					tracker.innerText = "Nura is updating your system...";
 					try {
 						await new anura.fs.Shell().promises.rm("/anura_files", {
 							recursive: true,
@@ -276,9 +276,9 @@ window.addEventListener("load", async () => {
 
 		if (needsMigration.length > 0) {
 			anura.notifications.add({
-				title: "Anura Update",
+				title: "Nura Update",
 				description:
-					"AnuraOS has been updated to a new version. Users are recommended to change the installation directory of their apps and libraries to /usr/ to ensure consistency with new installations.",
+					"Nura has been updated to a new version. Users are recommended to change the installation directory of their apps and libraries to /usr/ to ensure consistency with new installations.",
 				timeout: "never",
 				buttons: [
 					{
@@ -482,7 +482,7 @@ document.addEventListener("anura-login-completed", async () => {
 	const generic = new GenericApp();
 	anura.registerApp(generic);
 
-	const browser = new BrowserApp();
+	const browser = anura.apps["anura.browser"] ?? new BrowserApp();
 	anura.registerApp(browser);
 
 	const settings = new SettingsApp();
@@ -691,9 +691,9 @@ async function bootUserCustomizations() {
 		const recovery = new RecoveryApp();
 		anura.registerApp(recovery);
 		anura.notifications.add({
-			title: "Anura Error",
+			title: "Nura Error",
 			description:
-				"Anura has detected a system fault and booted in safe mode. Click this notification to enter the recovery app.",
+				"Nura has detected a system fault and booted in safe mode. Click this notification to enter the recovery app.",
 			timeout: "never",
 			callback: () => anura.apps["anura.recovery"].open(),
 		});

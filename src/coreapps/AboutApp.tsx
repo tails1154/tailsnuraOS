@@ -1,5 +1,5 @@
 class AboutApp extends App {
-	name = "About Anura";
+	name = "About Nura";
 	package = "anura.about";
 	icon = "/assets/icons/aboutapp.png";
 
@@ -18,7 +18,32 @@ class AboutApp extends App {
 			</div>
 			<div class="aboutapp-logo-divider"></div>
 			<div class="aboutapp-content">
-				<p>AnuraOS</p>
+				<p>Nura</p>
+				<p>
+					Nura is a fork of AnuraOS by Mercury Workshop, made by tails1154.
+					Source code:{" "}
+					<button
+						on:click={() => {
+							anura.apps["anura.browser"].open([
+								"https://github.com/tails1154/tailsnuraOS",
+							]);
+						}}
+						class="aboutapp-link-button"
+					>
+						tails1154/tailsnuraOS
+					</button>
+					{" · "}
+					<button
+						on:click={() => {
+							anura.apps["anura.browser"].open([
+								"https://github.com/MercuryWorkshop/anuraOS",
+							]);
+						}}
+						class="aboutapp-link-button"
+					>
+						original Nura
+					</button>
+				</p>
 				<p>
 					Version {anura.version.codename} ({anura.version.pretty}) (OS build{" "}
 					<button
@@ -33,12 +58,12 @@ class AboutApp extends App {
 					</button>
 					)
 				</p>
-				<p>© Mercury Workshop. All rights reserved.</p>
+				<p>© tails1154. Fork of AnuraOS © Mercury Workshop.</p>
 				<br />
 				{$if(
 					anura.settings.get("x86-disabled"),
 					<p>
-						Anura x86 subsystem disabled. <br /> Enable it in{" "}
+						Nura x86 subsystem disabled. <br /> Enable it in{" "}
 						<button
 							on:click={() => {
 								anura.apps["anura.settings"].open();
@@ -49,15 +74,15 @@ class AboutApp extends App {
 						</button>
 						.
 					</p>,
-					<p>Anura x86 subsystem enabled.</p>,
+					<p>Nura x86 subsystem enabled.</p>,
 				)}
 
 				<br />
 
 				{$if(
 					anura.settings.get("bootFromOPFS"),
-					<p>Anura is booting from OPFS.</p>,
-					<p>Anura OPFS boot disabled.</p>,
+					<p>Nura is booting from OPFS.</p>,
+					<p>Nura OPFS boot disabled.</p>,
 				)}
 
 				<br />

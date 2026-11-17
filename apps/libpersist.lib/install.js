@@ -17,7 +17,7 @@ export default function install(anura) {
 				name: "anureg",
 				vendor: "[[internal]]",
 				description:
-					"Anura's default persistance provider, using a simple JSON file",
+					"Nura's default persistance provider, using a simple JSON file",
 				handler: "index.js",
 			}),
 		);

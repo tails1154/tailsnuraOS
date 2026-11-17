@@ -179,13 +179,13 @@ class ExploreApp extends App {
 		<div id="body" class="v86">
 			<h1>Using the x86 Subsystem</h1>
 			<p>
-				AnuraOS includes an x86 subsystem (based on{" "}
+				Nura includes an x86 subsystem (based on{" "}
 				<a
 					href="javascript:anura.apps['anura.browser'].open(['https://github.com/copy/v86']);" // using dreamland on:click or html onclick makes the link not blue
 				>
 					v86
 				</a>
-				), which lets you run real Linux within Anura.
+				), which lets you run real Linux within Nura.
 				{anura.x86 === undefined && (
 					<p>
 						It seems like you dont have the subsystem enabled. You can install
@@ -232,26 +232,26 @@ class ExploreApp extends App {
 	welcome = (
 		<div id="body">
 			<div class="head">
-				<img src="/icon.png" alt="AnuraOS Logo" />
-				<h1>Welcome to AnuraOS!</h1>
+				<img src="/icon.png" alt="Nura Logo" />
+				<h1>Welcome to Nura!</h1>
 			</div>
-			<h2>What is AnuraOS?</h2>
+			<h2>What is Nura?</h2>
 			<p>
-				AnuraOS is a desktop environment made for development that runs right in
+				Nura is a desktop environment made for development that runs right in
 				your browser. It features full Linux emulation and a robust app
 				ecosystem.
 			</p>
 			<h2>Getting Started</h2>
 			<p>
-				AnuraOS functions just like your average desktop: you can launch apps
-				from the launcher (accessible via the button in the bottom-left, or
-				pressing the Meta key), drag windows around, and pin apps to the
-				taskbar. AnuraOS is visually based off of Google's ChromeOS.
+				Nura functions just like your average desktop: you can launch apps from
+				the launcher (accessible via the button in the bottom-left, or pressing
+				the Meta key), drag windows around, and pin apps to the taskbar. Nura is
+				visually based off of Google's ChromeOS.
 			</p>
 
 			<h2>Get new apps</h2>
 			<p>
-				To install more native Anura apps, you can head to the{" "}
+				To install more native Nura apps, you can head to the{" "}
 				<span>
 					<img
 						src="/apps/marketplace.app/playstore.webp"
@@ -263,8 +263,8 @@ class ExploreApp extends App {
 			</p>
 			<h2>Customize your experience</h2>
 			<p>
-				AnuraOS has robust customization features. You can change the wallpaper
-				and system colors using{" "}
+				Nura has robust customization features. You can change the wallpaper and
+				system colors using{" "}
 				<span>
 					<a href="javascript:anura.apps['anura.wallpaper'].open();">
 						<img
@@ -277,7 +277,7 @@ class ExploreApp extends App {
 				.
 			</p>
 			<p>
-				For advanced users, Anura will execute any files in the /usr/init folder
+				For advanced users, Nura will execute any files in the /usr/init folder
 				as JavaScript code on boot.
 			</p>
 		</div>
@@ -327,7 +327,7 @@ class ExploreApp extends App {
 
 	async open(args: string[] = []): Promise<WMWindow | undefined> {
 		const win = anura.wm.create(this, {
-			title: "Explore AnuraOS",
+			title: "Explore Nura",
 			width: `calc(${window.innerHeight * 0.6}px * 16 / 10)`, // manually calculating to prevent wonky behaviour on window resize
 			height: `${window.innerHeight * 0.6}px`,
 		});

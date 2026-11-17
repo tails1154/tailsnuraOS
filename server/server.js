@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import express from "express";
 import { server as wisp } from "@mercuryworkshop/wisp-js/server";
+import { accountRouter } from "./account.js";
 
 const __dirname = path.join(process.cwd(), "..");
 
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
 	res.header("Cross-Origin-Resource-Policy", "same-site");
 	next();
 });
+
+app.use("/api/account", accountRouter);
 
 if (debugAppFolder) {
 	app.use((req, res, next) => {

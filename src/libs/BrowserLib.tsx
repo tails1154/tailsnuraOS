@@ -1,6 +1,6 @@
 // This lib is used to communicate with the browser app. It is registered manually in the browser app.
 class BrowserLib extends Lib {
-	name = "Anura Browser Lib";
+	name = "Nura Browser Lib";
 	package = "anura.libbrowser";
 	icon = "/assets/chrome.svg";
 

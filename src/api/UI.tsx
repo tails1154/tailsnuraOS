@@ -164,7 +164,7 @@ class AnuraUI {
 			}
 		}
 		const AnuraVersion: Component<{ product: string }> = function () {
-			this.product ||= "Anura";
+			this.product ||= "Nura";
 			return (
 				<span>
 					{this.product} version: {anura.version.pretty}

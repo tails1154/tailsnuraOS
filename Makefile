@@ -1,5 +1,8 @@
 SHELL := bash
 
+# Prefer cargo-installed tools (e.g. wasm-bindgen-cli 0.2.105) over system copies
+export PATH := $(HOME)/.cargo/bin:$(PATH)
+
 RUST_FILES=$(shell find external/v86/src/rust/ -name '*.rs') \
 	   external/v86/src/rust/gen/interpreter.rs external/v86/src/rust/gen/interpreter0f.rs \
 	   external/v86/src/rust/gen/jit.rs external/v86/src/rust/gen/jit0f.rs \
@@ -192,7 +195,7 @@ static: all
 	cp -r external/anura-browserjs/packages/chrome/dist static/browser
 
 server: FORCE
-	cd server; node server.js
+	cd server; PORT=$${PORT:-1145} node server.js
 
 rootfs: FORCE
 	cd x86_image_wizard; sh x86_image_wizard.sh

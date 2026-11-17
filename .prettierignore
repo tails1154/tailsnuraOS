@@ -6,3 +6,5 @@
 /external/**/*
 /x86_image_wizard/epoxy/**/*
 /static/
+build/
+anuraos-types/

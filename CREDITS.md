@@ -1,5 +1,9 @@
 # Credits
 
+- Original project
+  - tailsnuraOS (by tails1154) is a fork of AnuraOS by Mercury Workshop: https://github.com/MercuryWorkshop/anuraOS
+  - Fork source code: https://github.com/tails1154/tailsnuraOS
+
 - Contributors
   - Project Name: @ember3141
   - Project Maintainers:

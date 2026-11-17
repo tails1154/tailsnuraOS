@@ -158,6 +158,114 @@ const settingsCSS = css`
 	}
 `;
 
+const AccountSettings: Component<any> = function () {
+	this.session = null;
+	this.signedIn = false;
+	this.statusText = "Not signed in";
+	this.username = "";
+	this.password = "";
+	this.error = "";
+	this.busy = false;
+
+	this.refresh = async () => {
+		this.session = await (window as any).nuraAccount.getSession();
+		this.signedIn = !!this.session;
+		this.statusText = this.session
+			? `Signed in as ${this.session.username}`
+			: "Not signed in";
+	};
+	this.mount = () => {
+		this.refresh();
+	};
+	this.doSignIn = async () => {
+		this.error = "";
+		this.busy = true;
+		try {
+			await (window as any).nuraAccount.signIn(this.username, this.password);
+			this.password = "";
+			await this.refresh();
+		} catch (e: any) {
+			this.error = e?.message || String(e);
+		} finally {
+			this.busy = false;
+		}
+	};
+	this.doSync = async () => {
+		this.error = "";
+		this.busy = true;
+		try {
+			await (window as any).nuraAccount.syncNow();
+			this.statusText = "Synced just now";
+		} catch (e: any) {
+			this.error = e?.message || String(e);
+		} finally {
+			this.busy = false;
+		}
+	};
+	this.doSignOut = async () => {
+		await (window as any).nuraAccount.signOut();
+		this.error = "";
+		await this.refresh();
+	};
+
+	return (
+		<div id="account" class="account settings-category">
+			<h3 class="settings-category-name">Account</h3>
+			<div class="settings-group">
+				<div class="settings-item">
+					<span class="settings-item-name">{use(this.statusText)}</span>
+				</div>
+				{$if(
+					use(this.signedIn),
+					<div class="settings-item">
+						<button on:click={() => this.doSync()} disabled={use(this.busy)}>
+							Sync now
+						</button>
+						<button on:click={() => this.doSignOut()}>Sign out</button>
+						<SettingSwitch title="Auto sync" setting="account-autosync" />
+					</div>,
+					<div class="settings-item">
+						<input
+							type="text"
+							placeholder="Username"
+							autocomplete="username"
+							value={use(this.username)}
+							on:input={(e: Event) => {
+								this.username = (e.target as HTMLInputElement).value;
+							}}
+						/>
+						<input
+							type="password"
+							placeholder="Password"
+							autocomplete="current-password"
+							value={use(this.password)}
+							on:input={(e: Event) => {
+								this.password = (e.target as HTMLInputElement).value;
+							}}
+						/>
+						<button on:click={() => this.doSignIn()} disabled={use(this.busy)}>
+							Sign in
+						</button>
+						<button
+							on:click={() => {
+								const url = "https://tails1154.com:9782/register.html";
+								const browser = anura?.apps?.["anura.browser"];
+								if (browser) browser.open([url]);
+								else window.open(url, "_blank", "popup,width=480,height=680");
+							}}
+						>
+							Create account
+						</button>
+					</div>,
+				)}
+				<div class="settings-item">
+					<span class="settings-item-name">{use(this.error)}</span>
+				</div>
+			</div>
+		</div>
+	);
+};
+
 const SettingSwitch: Component<{
 	title: string;
 	setting: string;
@@ -243,7 +351,7 @@ class SettingsApp extends App {
 			class={`background ${settingsCSS}`}
 		>
 			<div class="header">
-				<h2>Anura Settings</h2>
+				<h2>Nura Settings</h2>
 			</div>
 
 			<div css={this.state} class="container">
@@ -301,7 +409,7 @@ class SettingsApp extends App {
 								callback={async () => {
 									if (
 										await anura.dialog.confirm(
-											"This will restart Anura. Are you sure?",
+											"This will restart Nura. Are you sure?",
 										)
 									) {
 										anura.settings.set("milestone", "__INVALID");
@@ -320,7 +428,7 @@ class SettingsApp extends App {
 								callback={async () => {
 									if (
 										await anura.dialog.confirm(
-											"This will restart Anura. Are you sure?\nYour data will not be accessible",
+											"This will restart Nura. Are you sure?\nYour data will not be accessible",
 										)
 									) {
 										await (window as any).idbKeyval.set(
@@ -347,7 +455,7 @@ class SettingsApp extends App {
 								setting="clampWindows"
 							/>
 							<SettingSwitch
-								title="Transparent Anura Shell Background"
+								title="Transparent Nura Shell Background"
 								setting="transparent-ashell"
 							/>
 							<SettingSwitch
@@ -359,7 +467,7 @@ class SettingsApp extends App {
 						</div>
 					</div>
 					<div id="v86" class="v86 settings-category">
-						<h3 class="settings-category-name">Anura x86</h3>
+						<h3 class="settings-category-name">Nura x86</h3>
 						<div class="settings-group">
 							{this.state.show_x86_install ? (
 								<div>
@@ -616,18 +724,17 @@ class SettingsApp extends App {
 							)}
 						</div>
 					</div>
+					<AccountSettings />
 					<div id="reset" class="settings-category">
-						<h3 class="settings-category-name">Reset Anura</h3>
+						<h3 class="settings-category-name">Reset Nura</h3>
 						<div class="settings-group">
 							<div class="settings-item">
-								<span class="settings-item-name">
-									Reset your Anura install.
-								</span>
+								<span class="settings-item-name">Reset your Nura install.</span>
 								<button
 									class="matter-button-outlined"
 									on:click={async () => {
 										const confirmation = await anura.dialog.confirm(
-											"Are you sure you want to powerwash Anura? All of your data will be lost.",
+											"Are you sure you want to powerwash Nura? All of your data will be lost.",
 										);
 										if (confirmation) {
 											try {
